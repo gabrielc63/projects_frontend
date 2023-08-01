@@ -33,10 +33,10 @@ function Header() {
         </div>
         {/* The right side */}
         <div className=" flex space-x-4 items-center md:space-x-6 ">
-          <button className=" button hidden md:block " onClick={() => {}}>
+          <button className="button hidden md:block" onClick={() => {}}>
             + Add New Task
           </button>
-          <button onClick={() => {}} className=" button py-1 px-3 md:hidden ">
+          <button onClick={() => {}} className="button py-1 px-3 md:hidden ">
             +
           </button>
 
