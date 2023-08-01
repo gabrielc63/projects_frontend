@@ -5,6 +5,12 @@ import iconDown from "../assets/icon-chevron-down.svg";
 import HeaderDropDown from "./HeaderDropDown";
 
 function Header() {
+  const [openDropdown, setOpenDropdown] = useState(false);
+
+  const onDropdownClick = () => {
+    setOpenDropdown((state) => !state);
+  };
+
   return (
     <div className="p-4 fixed left-0 bg-white dark:bg-[#2b2c37] z-50 right-0">
       <header className="flex justify-between dark:text-white items-center">
@@ -18,10 +24,10 @@ function Header() {
               board
             </h3>
             <img
-              src={""}
+              src={openDropdown ? iconUp : iconDown}
               alt=" dropdown icon"
-              className=" w-3 ml-2 md:hidden"
-              onClick={""}
+              className=" w-3 ml-2 "
+              onClick={onDropdownClick}
             />
           </div>
         </div>
@@ -42,6 +48,7 @@ function Header() {
           />
         </div>
       </header>
+      {openDropdown && <HeaderDropDown setOpenDropdown={setOpenDropdown} />}
     </div>
   );
 }
