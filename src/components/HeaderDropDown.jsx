@@ -21,6 +21,36 @@ function HeaderDropDown({ setOpenDropdown, setIsBoardModalOpen }) {
 
   const boards = useSelector((state) => state.boards);
 
+  const { boardItems, status, error } = boards;
+
+  let content;
+
+  if (status === "loading") {
+    content = <div className="text-center my-5">Loading...</div>;
+  } else if (status === "succeeded") {
+    content = boardItems.map((board, index) => (
+      <div
+        className={`dark:text-white flex items-baseline space-x-2 px-5 py-4  ${
+          board.isActive && "bg-[#635fc7] rounded-r-full text-white mr-8"
+        } `}
+        key={index}
+        onClick={() => {
+          dispatch(boardsSlice.actions.setBoardActive({ index }));
+        }}
+      >
+        <img src={boardIcon} className="filter-white  h-4 " />{" "}
+        <p className=" text-lg font-bold  ">{board.name}</p>
+      </div>
+    ));
+  } else if (status === "failed") {
+    content = (
+      <>
+        <h1>Posts not found</h1>
+        <p className="text-center text-danger">{error}</p>
+      </>
+    );
+  }
+
   return (
     <div
       className=" py-10 px-6 absolute  left-0 right-0 bottom-[-100vh] top-16 dropdown "
@@ -33,36 +63,22 @@ function HeaderDropDown({ setOpenDropdown, setIsBoardModalOpen }) {
     >
       {/* DropDown Modal */}
 
-      <div className=" bg-white dark:bg-[#2b2c37] shadow-md shadow-[#364e7e1a]  w-full   py-4 rounded-xl">
-        <h3 className=" dark:text-gray-300 text-gray-600 font-semibold mx-4 mb-8 ">
-          ALL BOARDS ({boards?.length})
+      <div className="bg-white dark:bg-[#2b2c37] shadow-md shadow-[#364e7e1a]  w-full   py-4 rounded-xl">
+        <h3 className="dark:text-gray-300 text-gray-600 font-semibold mx-4 mb-8 ">
+          ALL BOARDS ({boardItems?.length})
         </h3>
 
         <div className=" dropdown-borad  ">
-          {boards.map((board, index) => (
-            <div
-              className={` flex items-baseline space-x-2 px-5 py-4  ${
-                board.isActive &&
-                " bg-[#635fc7] rounded-r-full text-white mr-8 "
-              } `}
-              key={index}
-              onClick={() => {
-                dispatch(boardsSlice.actions.setBoardActive({ index }));
-              }}
-            >
-              <img src={boardIcon} className="filter-white  h-4 " />{" "}
-              <p className=" text-lg font-bold  ">{board.name}</p>
-            </div>
-          ))}
+          {content}
 
           <div
             onClick={() => {
               setIsBoardModalOpen(true);
               setOpenDropdown(false);
             }}
-            className="flex items-baseline space-x-2  text-[#635fc7] px-5 py-4"
+            className="cursor-pointer flex items-baseline space-x-2  text-[#635fc7] px-5 py-4"
           >
-            <img src={boardIcon} className="   filter-white  h-4 " />
+            <img src={boardIcon} className="filter-white  h-4" />
             <p className=" text-lg font-bold  ">Create New Board </p>
           </div>
 
