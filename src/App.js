@@ -4,7 +4,7 @@ import { getBoards } from "./redux/boardsSlice";
 import logo from "./logo.svg";
 import "./App.css";
 import Header from "./components/Header";
-import Center from "./components/Center";
+import ListBucket from "./components/ListBucket";
 
 const App = () => {
   const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
@@ -24,7 +24,10 @@ const App = () => {
         setIsBoardModalOpen={setIsBoardModalOpen}
         isBoardModalOpen={isBoardModalOpen}
       />
-      {/* <Center /> */}
+      <ListBucket
+        setIsBoardModalOpen={setIsBoardModalOpen}
+        isBoardModalOpen={isBoardModalOpen}
+      />
     </div>
   );
 };

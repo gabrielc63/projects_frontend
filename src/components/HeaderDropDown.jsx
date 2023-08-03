@@ -45,7 +45,7 @@ function HeaderDropDown({ setOpenDropdown, setIsBoardModalOpen }) {
   } else if (status === "failed") {
     content = (
       <>
-        <h1>Posts not found</h1>
+        <h1>Not found</h1>
         <p className="text-center text-danger">{error}</p>
       </>
     );
