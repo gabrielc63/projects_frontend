@@ -13,29 +13,33 @@ function ListBucket() {
   let content;
 
   if (status === "loading") {
-    content = (
-      <>
-        <EmptyBoard type="edit" />
-      </>
-    );
+    content = <></>;
   } else if (status === "succeeded") {
     const board = boardItems.find((board) => board.isActive === true);
     const lists = board.lists;
-    content = (
-      <>
-        {lists.map((col, index) => (
-          <List key={index} colIndex={index} />
-        ))}
-        <div
-          onClick={() => {
-            setIsBoardModalOpen(true);
-          }}
-          className=" h-screen dark:bg-[#2b2c3740] flex justify-center items-center font-bold text-2xl hover:text-[#635FC7] transition duration-300 cursor-pointer bg-[#E9EFFA] scrollbar-hide mb-2   mx-5 pt-[90px] min-w-[280px] text-[#828FA3] mt-[135px] rounded-lg "
-        >
-          + New Column
-        </div>
-      </>
-    );
+    if (lists.length > 0) {
+      content = (
+        <>
+          {lists.map((col, index) => (
+            <List key={index} colIndex={index} />
+          ))}
+          <div
+            onClick={() => {
+              setIsBoardModalOpen(true);
+            }}
+            className=" h-screen dark:bg-[#2b2c3740] flex justify-center items-center font-bold text-2xl hover:text-[#635FC7] transition duration-300 cursor-pointer bg-[#E9EFFA] scrollbar-hide mb-2   mx-5 pt-[90px] min-w-[280px] text-[#828FA3] mt-[135px] rounded-lg "
+          >
+            + New Column
+          </div>
+        </>
+      );
+    } else {
+      content = (
+        <>
+          <EmptyBoard type="edit" />
+        </>
+      );
+    }
   } else if (status === "failed") {
     content = (
       <>

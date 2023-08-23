@@ -41,6 +41,25 @@ export const getBoards = createAsyncThunk("boards/getBoards", async () => {
   }
 });
 
+export const updateListAsync = createAsyncThunk(
+  "lists/updateListAsync",
+  async (listData) => {
+    const requestOptions = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(listData),
+    };
+    const id = listData.list.id;
+
+    const response = await fetch(
+      buildUrl(config.url.UPDATE_LIST_URL + `/${id}`),
+      requestOptions
+    );
+    const data = await response.json();
+    return data;
+  }
+);
+
 const boardsSlice = createSlice({
   name: "boards",
   initialState: { boardItems: [], status: "idle", error: null },
@@ -89,6 +108,16 @@ const boardsSlice = createSlice({
       })
       .addCase(addBoardAsync.fulfilled, (state, action) => {
         state.boardItems.push(action.payload);
+      })
+      .addCase(updateListAsync.fulfilled, (state, action) => {
+        const board = state.boardItems.find(
+          (arrayItem) => arrayItem.id === action.payload.board_id
+        );
+        let updatedLists = board.lists.filter(
+          (item) => item.id !== action.payload.id
+        );
+        updatedLists.push(action.payload);
+        board.lists = updatedLists;
       });
   },
 });

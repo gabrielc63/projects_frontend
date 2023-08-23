@@ -5,12 +5,15 @@ import iconDown from "../assets/icon-chevron-down.svg";
 import elipsis from "../assets/icon-vertical-ellipsis.svg";
 import HeaderDropDown from "./HeaderDropDown";
 import AddEditBoardModal from "../modals/AddEditBoardModal";
+import AddEditTaskModal from "../modals/AddEditTaskModal";
 import { useDispatch, useSelector } from "react-redux";
 
 function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
   const dispatch = useDispatch();
   const [openDropdown, setOpenDropdown] = useState(false);
+  const [openAddEditTask, setOpenAddEditTask] = useState(false);
   const [boardType, setBoardType] = useState("add");
+  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
   const boards = useSelector((state) => state.boards.boardItems);
 
@@ -45,7 +48,12 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
           <button className="button hidden md:block" onClick={() => {}}>
             + Add New Task
           </button>
-          <button onClick={() => {}} className="button py-1 px-3 md:hidden ">
+          <button
+            onClick={() => {
+              setIsTaskModalOpen((state) => !state);
+            }}
+            className="button py-1 px-3 md:hidden "
+          >
             +
           </button>
 
@@ -68,6 +76,15 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
         <AddEditBoardModal
           type={boardType}
           setIsBoardModalOpen={setIsBoardModalOpen}
+        />
+      )}
+
+      {isTaskModalOpen && (
+        <AddEditTaskModal
+          setIsAddTaskModalOpen={setIsTaskModalOpen}
+          type="add"
+          device="mobile"
+          prevListIndex="0"
         />
       )}
     </div>

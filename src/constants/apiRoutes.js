@@ -9,6 +9,7 @@ const dev = {
     BASE_URL: "http://localhost:4000",
     BOARDS_INDEX_URL: "/api/v1/boards",
     CREATE_BOARD_URL: "/api/v1/boards/create",
+    UPDATE_LIST_URL: "/api/v1/lists/",
   },
 };
 
