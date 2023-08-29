@@ -1,6 +1,7 @@
 import { shuffle } from "lodash";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Task from "./Task";
 
 function List({ colIndex }) {
   const colors = [
@@ -19,7 +20,7 @@ function List({ colIndex }) {
   const [color, setColor] = useState(null);
   const boards = useSelector((state) => state.boards.boardItems);
   const board = boards.find((board) => board.isActive === true);
-  const col = board.lists.find((col, i) => i === colIndex);
+  const list = board.lists.find((col, i) => i === colIndex);
   useEffect(() => {
     setColor(shuffle(colors).pop());
   }, [dispatch]);
@@ -28,8 +29,12 @@ function List({ colIndex }) {
     <div className="scrollbar-hide  mx-5 pt-[90px] min-w-[280px] ">
       <p className=" font-semibold flex  items-center  gap-2 tracking-widest md:tracking-[.2em] text-[#828fa3]">
         <div className={`rounded-full w-4 h-4 ${color} `} />
-        {col.name}
+        {list.name} ({list.tasks.length})
       </p>
+
+      {list.tasks.map((task, index) => (
+        <Task key={index} taskIndex={index} colIndex={colIndex} />
+      ))}
     </div>
   );
 }
